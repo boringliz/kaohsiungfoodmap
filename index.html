@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#173f3a" />
+    <title>高雄美食地圖｜高雄必吃美食與順路美食攻略</title>
+    <meta name="description" content="整理高雄實際吃過的美食、小吃、甜點與咖啡店，依照行政區、分類與推薦路線快速找到想吃的店，並可直接開啟 Google Maps 導航。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:title" content="高雄美食地圖｜高雄必吃美食與順路美食攻略" />
+    <meta property="og:description" content="跟著地圖吃高雄，把好吃的排進你的旅行路線。" />
+    <meta property="og:image" content="./assets/images/zhengchang-duck-rice.jpg" />
+    <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
+    <link rel="stylesheet" href="./assets/vendor/leaflet.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要內容</a>
+    <header class="site-header" id="top">
+      <a class="brand" href="#top" aria-label="回到高雄美食地圖首頁">
+        <span class="brand-mark" aria-hidden="true">高</span>
+        <span><b>高雄美食地圖</b><small>KAOHSIUNG FOOD NOTES</small></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="main-nav"><span></span><span></span></button>
+      <nav class="main-nav" id="main-nav" aria-label="主要導覽">
+        <a href="#map-section">美食地圖</a>
+        <a href="#filters">依地區找</a>
+        <a href="#filters">依分類找</a>
+        <a href="#routes">推薦路線</a>
+        <a href="#restaurants">全部店家</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">EAT · WALK · KAOHSIUNG</p>
+          <h1 id="hero-title">高雄<br /><em>美食地圖</em></h1>
+          <p class="hero-lead">不知道高雄要吃什麼？<br />從地圖、地區或美食種類開始找。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#map-section">打開美食地圖 <span aria-hidden="true">↘</span></a>
+            <a class="button text-button" href="#routes">跟著路線吃</a>
+          </div>
+          <p class="hero-meta"><span id="hero-count">9</span> 筆旅途收藏 · 4 個行政區 · 持續更新</p>
+        </div>
+        <div class="hero-visual reveal" aria-hidden="true">
+          <div class="sun"></div>
+          <div class="port-word">TAKAO</div>
+          <div class="skyline"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="rail"><span></span><b>LIGHT RAIL</b></div>
+          <div class="waves"><i></i><i></i><i></i></div>
+          <p>22.6273° N<br />120.3014° E</p>
+        </div>
+      </section>
+
+      <section class="quick-section section-shell" aria-labelledby="quick-title">
+        <div class="section-heading compact">
+          <div><p class="section-index">01 / QUICK PICK</p><h2 id="quick-title">現在想吃什麼？</h2></div>
+          <p>先選一個心情，直接幫你把地圖與店家篩好。</p>
+        </div>
+        <div class="quick-grid" id="quick-picks">
+          <button type="button" data-category="正餐"><span>飯</span><b>想吃正餐</b><small>先把胃填飽</small></button>
+          <button type="button" data-category="小吃"><span>碗</span><b>高雄小吃</b><small>在地老味道</small></button>
+          <button type="button" data-category="甜點"><span>甜</span><b>吃個甜點</b><small>冰涼收尾</small></button>
+          <button type="button" data-category="咖啡"><span>咖</span><b>找間咖啡</b><small>慢慢坐一會</small></button>
+          <button type="button" data-category="宵夜"><span>夜</span><b>今晚宵夜</b><small>越夜越好吃</small></button>
+          <button type="button" data-category="飲料"><span>茶</span><b>喝杯飲料</b><small>散步帶著走</small></button>
+        </div>
+      </section>
+
+      <section class="map-section" id="map-section" aria-labelledby="map-title">
+        <div class="section-shell map-heading">
+          <div class="section-heading light">
+            <div><p class="section-index">02 / FOOD MAP</p><h2 id="map-title">從地圖開始吃高雄</h2></div>
+            <p>點選標記看店家，也可以先用下方地區與分類縮小範圍。</p>
+          </div>
+          <div class="map-stats"><strong id="map-count">8</strong><span>間已定位店家</span></div>
+        </div>
+        <div class="map-wrap section-shell">
+          <div id="food-map" role="region" aria-label="高雄美食店家地圖"></div>
+          <div class="map-fallback" id="map-fallback" hidden>地圖載入中斷，但仍可使用下方店家列表與 Google Maps 導航。</div>
+          <div class="map-note"><span class="marker-dot"></span> 地圖使用 OpenStreetMap，不需要 API Key</div>
+        </div>
+      </section>
+
+      <section class="filters-section section-shell" id="filters" aria-labelledby="filter-title">
+        <div class="filter-toolbar">
+          <div class="section-heading compact">
+            <div><p class="section-index">03 / EXPLORE</p><h2 id="filter-title">找一間現在就能去的店</h2></div>
+          </div>
+          <label class="search-box" for="search-input"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="搜尋店家或美食" autocomplete="off" /><kbd>⌘ K</kbd></label>
+        </div>
+        <div class="filter-panel">
+          <div class="filter-row"><span class="filter-label">地區</span><div class="filter-options" id="district-filters" role="group" aria-label="依地區篩選"></div></div>
+          <div class="filter-row"><span class="filter-label">分類</span><div class="filter-options" id="category-filters" role="group" aria-label="依分類篩選"></div></div>
+          <button class="clear-filter" id="clear-filter" type="button">清除篩選 ×</button>
+        </div>
+        <div class="results-meta"><p id="results-label" aria-live="polite">全部店家｜共 9 間</p><span>地圖會同步更新</span></div>
+        <div class="restaurant-grid" id="filtered-restaurants"></div>
+        <div class="empty-state" id="empty-state" hidden><b>這個組合暫時沒有收藏</b><p>換個地區或分類看看，新的旅途口袋名單也會持續加入。</p><button type="button" class="button primary" data-clear>清除篩選</button></div>
+      </section>
+
+      <section class="routes-section" id="routes" aria-labelledby="routes-title">
+        <div class="section-shell">
+          <div class="section-heading light">
+            <div><p class="section-index">04 / FOOD TRAILS</p><h2 id="routes-title">跟著吃｜高雄美食路線</h2></div>
+            <p>不是硬湊名單，而是把營業時段與移動方向一起排進旅程。</p>
+          </div>
+          <div class="routes-list" id="routes-list"></div>
+        </div>
+      </section>
+
+      <section class="all-section section-shell" id="restaurants" aria-labelledby="all-title">
+        <div class="section-heading">
+          <div><p class="section-index">05 / ALL NOTES</p><h2 id="all-title">全部旅途收藏</h2></div>
+          <p>照片都是這次高雄旅行的實際紀錄；資訊待確認的店家會清楚標示。</p>
+        </div>
+        <div class="restaurant-grid" id="all-restaurants"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div><p class="footer-kicker">KAOHSIUNG, TAIWAN</p><h2>下一站，<br />繼續吃。</h2></div>
+      <div><p>跟著地圖吃高雄，<br />把好吃的排進你的旅行路線。</p><a href="#top">回到頁首 ↑</a></div>
+      <small>店家資訊可能隨時調整，出發前請以店家最新公告為準。地圖資料 © OpenStreetMap contributors.</small>
+    </footer>
+
+    <nav class="mobile-nav" aria-label="手機快速導覽">
+      <a href="#quick-title"><span>◇</span>探索</a><a href="#map-section"><span>⌖</span>地圖</a><a href="#routes"><span>↝</span>路線</a><a href="#restaurants"><span>▦</span>店家</a>
+    </nav>
+
+    <dialog class="detail-dialog" id="detail-dialog" aria-labelledby="dialog-title">
+      <button class="dialog-close" type="button" aria-label="關閉詳細資訊">×</button>
+      <div id="dialog-content"></div>
+    </dialog>
+
+    <script src="./data/restaurants.js"></script>
+    <script src="./data/routes.js"></script>
+    <script src="./assets/vendor/leaflet.js"></script>
+    <script src="./js/app.js"></script>
+  </body>
+</html>
